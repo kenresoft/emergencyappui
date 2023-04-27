@@ -162,10 +162,12 @@ class _DashboardState extends ConsumerState<Dashboard> {
                               children: [
                                 5.spaceY(),
                                 iconList
-                                    .map((icon) => icon.edit(
-                                          size: condition(isSize, 60, 30),
-                                          color: condition(index == 4, Colors.white, Colors.blue.shade400),
-                                        ))
+                                    .map(
+                                      (icon) => icon.edit(
+                                        size: condition(isSize, 60, 30),
+                                        color: condition(index == 4, Colors.white, Colors.blue.shade400),
+                                      ),
+                                    )
                                     .toList()[index - 1],
                                 5.spaceY(),
                                 'Medical Services $index'.edit(

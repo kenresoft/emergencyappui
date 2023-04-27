@@ -11,6 +11,29 @@ Contains both light and dark themes with Material3 Design Implementation.
 <img src="screenshots/Screenshot_20230401-033341.jpg" width="300" height="650" title="screenshot 4" alt="Dark theme 1"/>
 <img src="screenshots/Screenshot_20230401-033345.jpg" width="300" height="650" title="screenshot 5" alt="Dark theme 2"/>
 
+## Dependencies
+
+```yaml
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  fontresoft:
+    git:
+      url: git@github.com:kenresoft/fontresoft.git
+      ref: master
+  extensionresoft:
+    git:
+      url: git@github.com:kenresoft/extensionresoft.git
+      ref: master
+  cupertino_icons: ^1.0.5
+  go_router: ^6.5.7
+  flutter_riverpod: ^2.3.5
+  flutter_hooks: ^0.18.6
+  hooks_riverpod: ^2.3.5
+  awesome_bottom_bar: ^1.2.2
+```
 
 ## Getting Started
 
