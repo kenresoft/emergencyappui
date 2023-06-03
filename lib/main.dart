@@ -72,6 +72,16 @@ class MyApp extends StatelessWidget {
   );
 }
 
+/// Creates a GoRoute object.
+///
+/// The `route()` function takes two arguments:
+/// the `path` of the `route` and the widget to render for the route.
+///
+/// *Parameters:*
+///
+///   `path`: The path of the route.
+///
+///   `route`: The widget to render for the route.
 GoRoute route(String path, Widget route) {
   return GoRoute(
     path: path,

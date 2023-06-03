@@ -8,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../data/constants.dart';
 import '../providers/providers.dart';
+import '../utils.dart';
 
 class Dashboard extends StatefulHookConsumerWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -107,7 +108,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                 /// Blue CardView
                 LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {
-                    var isSize = layout(constraints);
+                    var isSize = layout(context, constraints);
                     return 25.radius(
                       elevation: 5,
                       color: Colors.blue,
@@ -141,7 +142,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                 ///GRID VIEW
                 LayoutBuilder(
                   builder: (context, constraints) {
-                    var isSize = layout(constraints);
+                    var isSize = layout(context, constraints);
                     return GridView.builder(
                       shrinkWrap: true,
                       itemCount: 6,
@@ -192,65 +193,53 @@ class _DashboardState extends ConsumerState<Dashboard> {
       resizeToAvoidBottomInset: false,
 
       /// Bottom Navigation
-      bottomNavigationBar: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          var isSize = layout(constraints);
-          return Container(
-            height: condition(isSize, 90, null),
-            padding: EdgeInsets.only(left: 20, right: 20, top: 1, bottom: condition(isSize, 15, 20)),
-            child: BottomBarFloating(
-              items: [
-                const TabItem(title: 'Home', icon: Icons.home_rounded),
-                const TabItem(title: 'Alert', icon: Icons.screenshot_monitor_rounded),
-                TabItem(
-                  title: 'Location',
-                  icon: Icons.location_on_rounded,
-                  count: 15.radius(
-                      color: Colors.blue.shade50,
-                      width: 25,
-                      child: '4'.edit(
-                        textStyle: const TextStyle(color: Colors.blue),
-                        textAlign: TextAlign.center,
-                      )),
-                ),
-                const TabItem(title: 'Account', icon: Icons.person_rounded),
-              ],
-              backgroundColor: Colors.blue.shade600,
-              color: Colors.blue.shade100,
-              borderRadius: BorderRadius.circular(40),
-              colorSelected: Colors.white,
-              //boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 1, offset: Offset(0, 1))],
-              indexSelected: ref.watch(tabProvider.select((value) => value)),
-              paddingVertical: condition(isSize, 10, 20),
-              onTap: (int index) {
-                //current = index;
-                controller.text = index.toString();
-                ref.watch(tabProvider.notifier).setTab = index;
-              },
-              /*onTap: (int index) => setState(() {
-                current = index;
-                controller.text = index.toString();
-              }),*/
-            ),
-          );
-        },
-      ),
+      bottomNavigationBar: buildLayoutBuilder(controller),
     );
   }
 
-  bool layout(BoxConstraints constraints) {
-    var size = constraints.maxWidth;
-    var orientation = MediaQuery.of(context).orientation.name;
-    var width = condition(orientation == "portrait", MediaQuery.of(context).size.width, MediaQuery.of(context).size.flipped.width);
-    return size > width;
+  LayoutBuilder buildLayoutBuilder(TextEditingController controller) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        var isSize = layout(context, constraints);
+        return Container(
+          height: condition(isSize, 90, null),
+          padding: EdgeInsets.only(left: 20, right: 20, top: 1, bottom: condition(isSize, 15, 20)),
+          child: BottomBarFloating(
+            items: [
+              const TabItem(title: 'Home', icon: Icons.home_rounded),
+              const TabItem(title: 'Alert', icon: Icons.screenshot_monitor_rounded),
+              TabItem(
+                title: 'Location',
+                icon: Icons.location_on_rounded,
+                count: 15.radius(
+                    color: Colors.blue.shade50,
+                    width: 25,
+                    child: '4'.edit(
+                      textStyle: const TextStyle(color: Colors.blue),
+                      textAlign: TextAlign.center,
+                    )),
+              ),
+              const TabItem(title: 'Account', icon: Icons.person_rounded),
+            ],
+            backgroundColor: Colors.blue.shade600,
+            color: Colors.blue.shade100,
+            borderRadius: BorderRadius.circular(40),
+            colorSelected: Colors.white,
+            //boxShadow: const [BoxShadow(color: Colors.grey, blurRadius: 1, offset: Offset(0, 1))],
+            indexSelected: ref.watch(tabProvider.select((value) => value)),
+            paddingVertical: condition(isSize, 10, 20),
+            onTap: (int index) {
+              //current = index;
+              controller.text = index.toString();
+              ref.watch(tabProvider.notifier).setTab = index;
+            },
+            /*onTap: (int index) => setState(() {
+              current = index;
+              controller.text = index.toString();
+            }),*/
+          ),
+        );
+      },
+    );
   }
-
-  var iconList = [
-    Icons.medical_services_rounded,
-    Icons.medical_information,
-    Icons.local_hospital_rounded,
-    Icons.health_and_safety_rounded,
-    Icons.bedroom_parent_rounded,
-    Icons.medication_liquid_rounded,
-  ];
 }
